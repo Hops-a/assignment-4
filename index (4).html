@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Registration - Mes Medical</title>
+    <style>
+        body { 
+            background-color: lightblue; 
+            font-family: Arial, sans-serif;
+            color: darkblue;
+            margin: 0;
+            padding: 0;
+            padding-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        /* Fixed Header */
+        .header { 
+            background-color: blue; 
+            color: white; 
+            padding: 15px; 
+            text-align: center;
+            border-radius: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .welcome-message {
+            background-color: rgba(255,255,255,0.2);
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .new-user-checkbox {
+            margin: 5px 0;
+        }
+
+        h1 {
+            color: white;
+            font-size: 28px;
+            margin: 10px 0;
+            font-family: Georgia, serif;
+        }
+
+        .main-content {
+            background-color: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: darkblue;
+            text-align: center;
+            font-family: Georgia, serif;
+        }
+
+        .logo { 
+            background-color: red; 
+            width: 25px; 
+            height: 25px; 
+            display: inline-block;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Fixed Footer */
+        .footer { 
+            background-color: gray; 
+            color: white; 
+            padding: 15px; 
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+        }
+
+        .footer button {
+            background-color: darkblue;
+            color: white;
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* iFrame styling */
+        .iframe-container {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border: 2px solid blue;
+            border-radius: 8px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"], 
+        input[type="tel"],
+        input[type="date"],
+        select, 
+        textarea {
+            padding: 8px;
+            border: 2px solid lightgray;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="password"]:focus, 
+        input[type="tel"]:focus,
+        input[type="date"]:focus,
+        select:focus, 
+        textarea:focus {
+            border-color: blue;
+            outline: none;
+        }
+
+        input[type="checkbox"], 
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+
+        button[type="reset"] {
+            background-color: red;
+            color: white;
+        }
+
+        button[type="submit"],
+        button[type="button"]:not([type="reset"]) {
+            background-color: green;
+            color: white;
+        }
+
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        button:hover:not(:disabled) {
+            opacity: 0.8;
+        }
+
+        .error-message {
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 12px;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        #reviewSection {
+            margin-top: 30px;
+            border: 2px solid blue;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+        }
+
+        #reviewSection table {
+            background-color: white;
+            padding: 10px;
+        }
+
+        #reviewSection td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .remember-me-section {
+            background-color: #fff3cd;
+            padding: 15px;
+            margin: 20px 0;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo"></div>
+        <h1>Mes Medical</h1>
+        <div id="welcomeSection" class="welcome-message"></div>
+        Today is: <span id="date"></span>
+    </div>
+
+    <div class="main-content">
+        <h2>Patient Registration Form</h2>
+        
+       <div class="iframe-container">
+    <h3>Health Resources & Patient Information</h3>
+    <iframe id="healthFrame" title="Health Information" src="health-info.html"></iframe>
+    <p style="font-size: 12px; color: gray;">Important health information and resources</p>
+</div>
+
+        <form id="patientForm">
+            <table>
+                <tr>
+                    <td>First Name:*</td>
+                    <td>
+                        <input type="text" id="firstName" 
+                            oninput="validateFirstName(); saveToLocalStorage('firstName', this.value)" 
+                            onblur="validateFirstName()" required>
+                        <span id="firstNameError" class="error-message"></span>
+                    </td>
+                    <td>M.I.:</td>
+                    <td>
+                        <input type="text" id="middleInitial" maxlength="1"
+                            oninput="validateMiddleInitial(); saveToLocalStorage('middleInitial', this.value)" 
+                            onblur="validateMiddleInitial()">
+                        <span id="middleInitialError" class="error-message"></span>
+                    </td>
+                    <td>Last Name:*</td>
+                    <td>
+                        <input type="text" id="lastName"
+                            oninput="validateLastName(); saveToLocalStorage('lastName', this.value)" 
+                            onblur="validateLastName()" required>
+                        <span id="lastNameError" class="error-message"></span>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Date of Birth:*</td>
+                    <td colspan="5">
+                        <input type="date" id="dob" 
+                            onchange="validateDOB(); saveToLocalStorage('dob', this.value)" 
+                            onblur="validateDOB()" required>
+                        <span id="dobError" class="error-message"></span>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Email:*</td>
+                    <td colspan="5">
+                        <input type="email" id="email" 
+                            oninput="validateEmail(); saveToLocalStorage('email', this.value)" 
+                            onblur="validateEmail()" required>
+                        <span id="emailError" class="error-message"></span>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Phone:*</td>
+                    <td colspan="5">
+                        <input type="tel" id="phone" placeholder="000-000-0000"
+                            oninput="formatPhone(); saveToLocalStorage('phone', this.value)" 
+                            onblur="validatePhone()" required>
+                        <span id="phoneError" class="error-message"></span>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Address 1:*</td>
+                    <td colspan="5">
+                        <input type="text" id="address1"
+                            oninput="validateAddress1(); saveToLocalStorage('address1', this.value)" 
+                            onblur="validateAddress1()" required>
+                        <span id="address1Error" class="error-message"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address 2:</td>
+                    <td colspan="5">
+                        <input type="text" id="address2"
+                            oninput="validateAddress2(); saveToLocalStorage('address2', this.value)" 
+                            onblur="validateAddress2()">
+                        <span id="address2Error" class="error-message"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>City:*</td>
+                    <td>
+                        <input type="text" id="city"
+                            oninput="validateCity(); saveToLocalStorage('city', this.value)" 
+                            onblur="validateCity()" required>
+                        <span id="cityError" class="error-message"></span>
+                    </td>
+                    <td>State:*</td>
+                    <td>
+                        <select id="state" 
+                            onchange="validateState(); saveToLocalStorage('state', this.value)" 
+                            onblur="validateState()" required>
+                            <option value="">Loading states...</option>
+                        </select>
+                        <span id="stateError" class="error-message"></span>
+                    </td>
+                    <td>Zip:*</td>
+                    <td>
+                        <input type="text" id="zip"
+                            oninput="formatZip(); saveToLocalStorage('zip', this.value)" 
+                            onblur="validateZip()" required>
+                        <span id="zipError" class="error-message"></span>
+                    </td>
+                </tr>
+            </table>
+
+            <p><strong>Current Symptoms:</strong></p>
+            <textarea id="symptoms" rows="3" cols="50" 
+                placeholder="Describe your symptoms..."
+                oninput="saveToLocalStorage('symptoms', this.value)"></textarea>
+
+            <p><strong>Check all that apply - Have you had:</strong></p>
+            <div id="symptomsCheckboxes">Loading symptoms...</div>
+
+            <p><strong>Gender:</strong></p>
+            <label><input type="radio" name="gender" value="Male" onchange="saveToLocalStorage('gender', this.value)"> Male</label>
+            <label><input type="radio" name="gender" value="Female" onchange="saveToLocalStorage('gender', this.value)"> Female</label>
+            <label><input type="radio" name="gender" value="Other" onchange="saveToLocalStorage('gender', this.value)"> Other</label>
+
+            <p><strong>COVID-19 Vaccinated?</strong></p>
+            <label><input type="radio" name="vaccinated" value="Yes" onchange="saveToLocalStorage('vaccinated', this.value)"> Yes</label>
+            <label><input type="radio" name="vaccinated" value="No" onchange="saveToLocalStorage('vaccinated', this.value)"> No</label>
+
+            <p><strong>Have Health Insurance?</strong></p>
+            <label><input type="radio" name="insurance" value="Yes" onchange="saveToLocalStorage('insurance', this.value)"> Yes</label>
+            <label><input type="radio" name="insurance" value="No" onchange="saveToLocalStorage('insurance', this.value)"> No</label>
+
+            <p><strong>Health Level (1-10):</strong> <span id="healthValue">5</span></p>
+            <input type="range" id="healthScale" min="1" max="10" value="5" 
+                oninput="updateHealthValue(this.value); saveToLocalStorage('healthScale', this.value)">
+
+            <!-- Remember Me Section -->
+            <div class="remember-me-section">
+                <label>
+                    <input type="checkbox" id="rememberMe" checked onchange="handleRememberMe()">
+                    <strong>Remember Me</strong> - Save my information for next visit
+                </label>
+            </div>
+
+            <p><strong>User ID:*</strong></p>
+            <input type="text" id="userId"
+                oninput="convertToLowercase(this)" 
+                onblur="checkUserId()" required>
+            <span id="userIdError" class="error-message"></span>
+
+            <p><strong>Password:*</strong></p>
+            <input type="password" id="password"
+                oninput="checkPassword()" 
+                onblur="checkPassword()" required>
+            <span id="passError" class="error-message"></span>
+
+            <p><strong>Re-enter Password:*</strong></p>
+            <input type="password" id="confirmPassword"
+                oninput="checkPasswordMatch()" 
+                onblur="checkPasswordMatch()" required>
+            <span id="confirmError" class="error-message"></span>
+
+            <p>
+                <button type="button" onclick="reviewForm()">REVIEW</button>
+                <button type="button" id="submitBtn" onclick="submitForm()" disabled>SUBMIT</button>
+                <button type="reset" onclick="handleClearForm()">CLEAR AND START OVER</button>
+            </p>
+        </form>
+
+        <div id="reviewSection" style="display:none;">
+            <h2>PLEASE REVIEW THIS INFORMATION</h2>
+            <div id="reviewContent"></div>
+            <button type="button" onclick="submitForm()">CONFIRM & SUBMIT</button>
+            <button type="button" onclick="hideReview()">EDIT FORM</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        Mes Medical - 123 Main St, Houston, TX 77001
+        <br>
+        <button onclick="alert('Contact: (713) 555-DOCS\nEmail: info@mesmedical.com')">Contact Us</button>
+    </div>
+
+    <script>
+var fieldErrors = {
+    firstName: true, middleInitial: false, lastName: true, dob: true,
+    email: true, phone: true, address1: true, address2: false,
+    city: true, state: true, zip: true, userId: true,
+    password: true, confirmPassword: true
+};
+function setCookie(name, value, hours) {
+    var expires = "";
+    if (hours) {
+        var date = new Date();
+        date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    document.cookie = name + '=; Max-Age=-99999999; path=/';
+}
+
+function saveToLocalStorage(key, value) {
+    if (document.getElementById('rememberMe').checked) {
+        try {
+            var storageData = JSON.parse(localStorage.getItem('patientFormData') || '{}');
+            storageData[key] = value;
+            localStorage.setItem('patientFormData', JSON.stringify(storageData));
+        } catch (e) {
+            console.log('Storage error:', e);
+        }
+    }
+}
+
+function loadFromLocalStorage() {
+    try {
+        var data = JSON.parse(localStorage.getItem('patientFormData') || '{}');
+        for (var key in data) {
+            var element = document.getElementById(key);
+            if (element) {
+                if (element.type === 'radio') {
+                    var radios = document.getElementsByName(element.name);
+                    for (var i = 0; i < radios.length; i++) {
+                        if (radios[i].value === data[key]) {
+                            radios[i].checked = true;
+                        }
+                    }
+                } else {
+                    element.value = data[key];
+                }
+            }
+        }
+    } catch (e) {
+        console.log('Load error:', e);
+    }
+}
+
+function clearLocalStorage() {
+    localStorage.removeItem('patientFormData');
+}
+
+function handleRememberMe() {
+    if (!document.getElementById('rememberMe').checked) {
+        eraseCookie('userName');
+        clearLocalStorage();
+    } else {
+        var firstName = document.getElementById('firstName').value;
+        if (firstName) {
+            setCookie('userName', firstName, 8760);
+        }
+    }
+}
+
+function startAsNewUser() {
+    eraseCookie('userName');
+    clearLocalStorage();
+    document.getElementById('patientForm').reset();
+    document.getElementById('rememberMe').checked = true;
+    updateSubmitButton();
+    location.reload();
+}
+
+function checkReturningUser() {
+    var userName = getCookie('userName');
+    var welcomeSection = document.getElementById('welcomeSection');
+    
+    if (userName) {
+        welcomeSection.innerHTML = '<strong>Welcome back, ' + userName + '!</strong><br>' +
+            '<div class="new-user-checkbox">' +
+            '<label><input type="checkbox" id="notMeCheckbox" onchange="if(this.checked) startAsNewUser()"> ' +
+            'Not ' + userName + '? Click here to start as a NEW USER</label></div>';
+        loadFromLocalStorage();
+        setTimeout(function() {
+            validateAllFields();
+        }, 100);
+    } else {
+        welcomeSection.innerHTML = '<strong>Welcome New User!</strong>';
+    }
+}
+
+async function loadStates() {
+    try {
+        const response = await fetch('states.json');
+        
+        if (!response.ok) {
+            throw new Error('Failed to load states');
+        }
+        
+        const statesData = await response.json();
+        
+        var select = document.getElementById('state');
+        select.innerHTML = '<option value="">Select State</option>';
+        
+        statesData.forEach(function(state) {
+            var option = document.createElement('option');
+            option.value = state.value;
+            option.textContent = state.text;
+            select.appendChild(option);
+        });
+        
+        console.log('✓ States loaded successfully via Fetch API');
+        
+        // Restore saved state if exists
+        var savedState = JSON.parse(localStorage.getItem('patientFormData') || '{}').state;
+        if (savedState) {
+            select.value = savedState;
+            validateState();
+        }
+    } catch (error) {
+        console.log('Fetch API Error loading states:', error);
+        loadStatesFallback();
+    }
+}
+
+function loadStatesFallback() {
+    const statesData = [
+        {value: "AL", text: "Alabama"}, {value: "AK", text: "Alaska"},
+        {value: "AZ", text: "Arizona"}, {value: "AR", text: "Arkansas"},
+        {value: "CA", text: "California"}, {value: "CO", text: "Colorado"},
+        {value: "CT", text: "Connecticut"}, {value: "DE", text: "Delaware"},
+        {value: "FL", text: "Florida"}, {value: "GA", text: "Georgia"},
+        {value: "TX", text: "Texas"}, {value: "NY", text: "New York"}
+    ];
+    
+    var select = document.getElementById('state');
+    select.innerHTML = '<option value="">Select State</option>';
+    
+    statesData.forEach(function(state) {
+        var option = document.createElement('option');
+        option.value = state.value;
+        option.textContent = state.text;
+        select.appendChild(option);
+    });
+    
+    console.log('✓ States loaded from fallback');
+}
+
+async function loadSymptomCheckboxes() {
+    try {
+        const response = await fetch('symptoms.json');
+        
+        if (!response.ok) {
+            throw new Error('Failed to load symptoms');
+        }
+        
+        const symptoms = await response.json();
+        
+        var container = document.getElementById('symptomsCheckboxes');
+        container.innerHTML = '';
+        
+        symptoms.forEach(function(symptom) {
+            var label = document.createElement('label');
+            label.innerHTML = '<input type="checkbox" name="history" value="' + symptom + '" ' +
+                'onchange="saveSymptomCheckboxes()"> ' + symptom + '<br>';
+            container.appendChild(label);
+        });
+        
+        console.log('✓ Symptoms loaded successfully via Fetch API');
+        
+        restoreSymptomCheckboxes();
+    } catch (error) {
+        console.log('Fetch API Error loading symptoms:', error);
+        loadSymptomsFallback();
+    }
+}
+
+function loadSymptomsFallback() {
+    const symptoms = ["Fever", "Headache", "Cough", "Sore Throat", "Body Aches", "Fatigue", "Chest Pain"];
+    
+    var container = document.getElementById('symptomsCheckboxes');
+    container.innerHTML = '';
+    
+    symptoms.forEach(function(symptom) {
+        var label = document.createElement('label');
+        label.innerHTML = '<input type="checkbox" name="history" value="' + symptom + '" ' +
+            'onchange="saveSymptomCheckboxes()"> ' + symptom + '<br>';
+        container.appendChild(label);
+    });
+    
+    console.log('✓ Symptoms loaded from fallback');
+    restoreSymptomCheckboxes();
+}
+
+function saveSymptomCheckboxes() {
+    if (document.getElementById('rememberMe').checked) {
+        var checkboxes = document.getElementsByName('history');
+        var selected = [];
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selected.push(checkboxes[i].value);
+            }
+        }
+        saveToLocalStorage('symptoms_checked', JSON.stringify(selected));
+    }
+}
+
+function restoreSymptomCheckboxes() {
+    try {
+        var data = JSON.parse(localStorage.getItem('patientFormData') || '{}');
+        var selected = JSON.parse(data.symptoms_checked || '[]');
+        var checkboxes = document.getElementsByName('history');
+        
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (selected.indexOf(checkboxes[i].value) >= 0) {
+                checkboxes[i].checked = true;
+            }
+        }
+    } catch (e) {
+        console.log('Error restoring checkboxes:', e);
+    }
+}
+
+// Validation Functions
+function hasErrors() {
+    for (var key in fieldErrors) {
+        if (fieldErrors[key]) return true;
+    }
+    return false;
+}
+
+function updateSubmitButton() {
+    var submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = hasErrors();
+    }
+}
+
+function updateHealthValue(value) {
+    document.getElementById('healthValue').textContent = value;
+}
+
+function convertToLowercase(field) {
+    field.value = field.value.toLowerCase();
+    checkUserId();
+}
+
+function validateFirstName() {
+    var field = document.getElementById('firstName');
+    var error = document.getElementById('firstNameError');
+    var value = field.value.trim();
+    
+    if (value.length === 0) {
+        error.textContent = "First name is required";
+        error.style.color = "red";
+        fieldErrors.firstName = true;
+    } else if (value.length > 30) {
+        error.textContent = "Max 30 characters";
+        error.style.color = "red";
+        fieldErrors.firstName = true;
+    } else if (!/^[A-Za-z\-']+$/.test(value)) {
+        error.textContent = "Letters, apostrophes, dashes only";
+        error.style.color = "red";
+        fieldErrors.firstName = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.firstName = false;
+        if (document.getElementById('rememberMe').checked) {
+            setCookie('userName', value, 8760);
+        }
+    }
+    updateSubmitButton();
+    checkPassword();
+}
+
+function validateMiddleInitial() {
+    var field = document.getElementById('middleInitial');
+    var error = document.getElementById('middleInitialError');
+    var value = field.value.trim();
+    
+    if (value.length === 0) {
+        error.textContent = "";
+        fieldErrors.middleInitial = false;
+    } else if (!/^[A-Za-z]$/.test(value)) {
+        error.textContent = "One letter only";
+        error.style.color = "red";
+        fieldErrors.middleInitial = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.middleInitial = false;
+    }
+    updateSubmitButton();
+}
+
+function validateLastName() {
+    var field = document.getElementById('lastName');
+    var error = document.getElementById('lastNameError');
+    var value = field.value.trim();
+    
+    if (value.length === 0) {
+        error.textContent = "Last name is required";
+        error.style.color = "red";
+        fieldErrors.lastName = true;
+    } else if (value.length > 30) {
+        error.textContent = "Max 30 characters";
+        error.style.color = "red";
+        fieldErrors.lastName = true;
+    } else if (!/^[A-Za-z\-'2-5]+$/.test(value)) {
+        error.textContent = "Letters, dashes, apostrophes, numbers 2-5 only";
+        error.style.color = "red";
+        fieldErrors.lastName = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.lastName = false;
+    }
+    updateSubmitButton();
+    checkPassword();
+}
+
+function validateDOB() {
+    var field = document.getElementById('dob');
+    var error = document.getElementById('dobError');
+    var value = field.value;
+    
+    if (!value) {
+        error.textContent = "Date of birth is required";
+        error.style.color = "red";
+        fieldErrors.dob = true;
+    } else {
+        var dobDate = new Date(value);
+        var today = new Date();
+        var maxDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
+        
+        if (dobDate > today) {
+            error.textContent = "Date cannot be in the future";
+            error.style.color = "red";
+            fieldErrors.dob = true;
+        } else if (dobDate < maxDate) {
+            error.textContent = "Date cannot be more than 120 years ago";
+            error.style.color = "red";
+            fieldErrors.dob = true;
+        } else {
+            error.textContent = "✓";
+            error.style.color = "green";
+            fieldErrors.dob = false;
+        }
+    }
+    updateSubmitButton();
+}
+
+function validateEmail() {
+    var field = document.getElementById('email');
+    var error = document.getElementById('emailError');
+    var value = field.value.trim().toLowerCase();
+    field.value = value;
+    
+    if (value.length === 0) {
+        error.textContent = "Email is required";
+        error.style.color = "red";
+        fieldErrors.email = true;
+    } else if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        error.textContent = "Invalid email format";
+        error.style.color = "red";
+        fieldErrors.email = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.email = false;
+    }
+    updateSubmitButton();
+}
+
+function formatPhone() {
+    var field = document.getElementById('phone');
+    var value = field.value.replace(/\D/g, '');
+    
+    if (value.length > 10) value = value.substring(0, 10);
+    
+    var formatted = '';
+    if (value.length > 0) {
+        formatted = value.substring(0, 3);
+        if (value.length > 3) formatted += '-' + value.substring(3, 6);
+        if (value.length > 6) formatted += '-' + value.substring(6, 10);
+    }
+    
+    field.value = formatted;
+    validatePhone();
+}
+
+function validatePhone() {
+    var field = document.getElementById('phone');
+    var error = document.getElementById('phoneError');
+    var value = field.value;
+    
+    if (value.length === 0) {
+        error.textContent = "Phone is required";
+        error.style.color = "red";
+        fieldErrors.phone = true;
+    } else if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) {
+        error.textContent = "Format: XXX-XXX-XXXX";
+        error.style.color = "red";
+        fieldErrors.phone = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.phone = false;
+    }
+    updateSubmitButton();
+}
+
+function validateAddress1() {
+    var field = document.getElementById('address1');
+    var error = document.getElementById('address1Error');
+    var value = field.value.trim();
+    
+    if (value.length === 0) {
+        error.textContent = "Address is required";
+        error.style.color = "red";
+        fieldErrors.address1 = true;
+    } else if (value.length < 2 || value.length > 30) {
+        error.textContent = "2-30 characters";
+        error.style.color = "red";
+        fieldErrors.address1 = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.address1 = false;
+    }
+    updateSubmitButton();
+}
+
+function validateAddress2() {
+    var field = document.getElementById('address2');
+    var error = document.getElementById('address2Error');
+    var value = field.value.trim();
+    
+    if (value.length === 0) {
+        error.textContent = "";
+        fieldErrors.address2 = false;
+    } else if (value.length < 2 || value.length > 30) {
+        error.textContent = "2-30 characters if entered";
+        error.style.color = "red";
+        fieldErrors.address2 = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.address2 = false;
+    }
+    updateSubmitButton();
+}
+
+function validateCity() {
+    var field = document.getElementById('city');
+    var error = document.getElementById('cityError');
+    var value = field.value.trim();
+    
+    if (value.length === 0) {
+        error.textContent = "City is required";
+        error.style.color = "red";
+        fieldErrors.city = true;
+    } else if (value.length < 2 || value.length > 30) {
+        error.textContent = "2-30 characters";
+        error.style.color = "red";
+        fieldErrors.city = true;
+    } else if (!/^[A-Za-z\s\-]+$/.test(value)) {
+        error.textContent = "Letters, spaces, dashes only";
+        error.style.color = "red";
+        fieldErrors.city = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.city = false;
+    }
+    updateSubmitButton();
+}
+
+function validateState() {
+    var field = document.getElementById('state');
+    var error = document.getElementById('stateError');
+    
+    if (!field.value) {
+        error.textContent = "State is required";
+        error.style.color = "red";
+        fieldErrors.state = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.state = false;
+    }
+    updateSubmitButton();
+}
+
+function formatZip() {
+    var field = document.getElementById('zip');
+    var value = field.value.replace(/\D/g, '');
+    if (value.length > 5) value = value.substring(0, 5);
+    field.value = value;
+    validateZip();
+}
+
+function validateZip() {
+    var field = document.getElementById('zip');
+    var error = document.getElementById('zipError');
+    
+    if (field.value.length === 0) {
+        error.textContent = "ZIP is required";
+        error.style.color = "red";
+        fieldErrors.zip = true;
+    } else if (!/^\d{5}$/.test(field.value)) {
+        error.textContent = "5 digits required";
+        error.style.color = "red";
+        fieldErrors.zip = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.zip = false;
+    }
+    updateSubmitButton();
+}
+
+function checkUserId() {
+    var field = document.getElementById('userId');
+    var error = document.getElementById('userIdError');
+    var value = field.value.trim();
+    var problems = [];
+    
+    if (value.length === 0) {
+        error.textContent = "User ID is required";
+        error.style.color = "red";
+        fieldErrors.userId = true;
+    } else {
+        if (!/^[A-Za-z]/.test(value)) problems.push("must start with letter");
+        if (value.length < 5) problems.push("at least 5 chars");
+        else if (value.length > 30) problems.push("max 30 chars");
+        if (!/^[A-Za-z0-9_\-]+$/.test(value)) problems.push("letters, numbers, dash, underscore only");
+        
+        if (problems.length > 0) {
+            error.textContent = "Need: " + problems.join(", ");
+            error.style.color = "red";
+            fieldErrors.userId = true;
+        } else {
+            error.textContent = "✓";
+            error.style.color = "green";
+            fieldErrors.userId = false;
+        }
+    }
+    updateSubmitButton();
+    checkPassword();
+}
+
+function checkPassword() {
+    var pass = document.getElementById('password').value;
+    var error = document.getElementById('passError');
+    var userId = document.getElementById('userId').value.toLowerCase();
+    var firstName = document.getElementById('firstName').value.toLowerCase();
+    var lastName = document.getElementById('lastName').value.toLowerCase();
+    
+    if (pass.length === 0) {
+        error.textContent = "Password is required";
+        error.style.color = "red";
+        fieldErrors.password = true;
+        updateSubmitButton();
+        return;
+    }
+    
+    var problems = [];
+    var hasUpper = /[A-Z]/.test(pass);
+    var hasLower = /[a-z]/.test(pass);
+    var hasNumber = /[0-9]/.test(pass);
+    var hasSpecial = /[!@#%^&*()\-_+=\\\/><.,`~]/.test(pass);
+    
+    if (!hasUpper) problems.push("uppercase");
+    if (!hasLower) problems.push("lowercase");
+    if (!hasNumber) problems.push("number");
+    if (!hasSpecial) problems.push("special char");
+    if (pass.length < 8) problems.push("8+ chars");
+    if (userId && pass.toLowerCase().indexOf(userId) >= 0) problems.push("can't contain userId");
+    if (firstName && pass.toLowerCase().indexOf(firstName) >= 0) problems.push("can't contain first name");
+    if (lastName && pass.toLowerCase().indexOf(lastName) >= 0) problems.push("can't contain last name");
+    
+    if (problems.length > 0) {
+        error.textContent = "Need: " + problems.join(", ");
+        error.style.color = "red";
+        fieldErrors.password = true;
+    } else {
+        error.textContent = "✓";
+        error.style.color = "green";
+        fieldErrors.password = false;
+    }
+    updateSubmitButton();
+}
+
+function checkPasswordMatch() {
+    var pass = document.getElementById('password').value;
+    var confirm = document.getElementById('confirmPassword').value;
+    var error = document.getElementById('confirmError');
+    
+    if (confirm.length === 0) {
+        error.textContent = "Please confirm password";
+        error.style.color = "red";
+        fieldErrors.confirmPassword = true;
+    } else if (pass === confirm) {
+        error.textContent = "✓ Passwords match";
+        error.style.color = "green";
+        fieldErrors.confirmPassword = false;
+    } else {
+        error.textContent = "Passwords do not match";
+        error.style.color = "red";
+        fieldErrors.confirmPassword = true;
+    }
+    updateSubmitButton();
+}
+
+function validateAllFields() {
+    validateFirstName();
+    validateMiddleInitial();
+    validateLastName();
+    validateDOB();
+    validateEmail();
+    validatePhone();
+    validateAddress1();
+    validateAddress2();
+    validateCity();
+    validateState();
+    validateZip();
+    checkUserId();
+    checkPassword();
+    checkPasswordMatch();
+}
+
+function reviewForm() {
+    validateAllFields();
+    
+    if (hasErrors()) {
+        alert("Please correct all errors before reviewing the form.");
+        return;
+    }
+    
+    var html = '<table style="width:100%">';
+    html += '<tr><td><strong>Name:</strong></td><td>' + document.getElementById('firstName').value;
+    var mi = document.getElementById('middleInitial').value;
+    if (mi) html += ' ' + mi + '.';
+    html += ' ' + document.getElementById('lastName').value + '</td></tr>';
+    html += '<tr><td><strong>DOB:</strong></td><td>' + document.getElementById('dob').value + '</td></tr>';
+    html += '<tr><td><strong>Email:</strong></td><td>' + document.getElementById('email').value + '</td></tr>';
+    html += '<tr><td><strong>Phone:</strong></td><td>' + document.getElementById('phone').value + '</td></tr>';
+    html += '<tr><td><strong>Address:</strong></td><td>' + document.getElementById('address1').value;
+    var addr2 = document.getElementById('address2').value;
+    if (addr2) html += '<br>' + addr2;
+    html += '<br>' + document.getElementById('city').value + ', ' + 
+            document.getElementById('state').value + ' ' + 
+            document.getElementById('zip').value + '</td></tr>';
+    html += '</table>';
+    
+    document.getElementById('reviewContent').innerHTML = html;
+    document.getElementById('reviewSection').style.display = 'block';
+    document.getElementById('reviewSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideReview() {
+    document.getElementById('reviewSection').style.display = 'none';
+}
+
+function submitForm() {
+    validateAllFields();
+    
+    if (hasErrors()) {
+        alert("Please correct all errors before submitting.");
+        return;
+    }
+    
+    alert("Form submitted successfully!");
+    if (!document.getElementById('rememberMe').checked) {
+        eraseCookie('userName');
+        clearLocalStorage();
+    }
+    window.location.href = "thankyou.html";
+}
+
+function handleClearForm() {
+    if (confirm("This will clear all form data. Continue?")) {
+        document.getElementById('patientForm').reset();
+        hideReview();
+        updateSubmitButton();
+    }
+}
+
+// Initialize page
+document.getElementById('date').innerHTML = new Date().toDateString();
+const today = new Date();
+const maxDate = today.toISOString().split('T')[0];
+const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+document.getElementById('dob').setAttribute('max', maxDate);
+document.getElementById('dob').setAttribute('min', minDate);
+
+function validateAllFields() {
+    validateFirstName();
+    validateMiddleInitial();
+    validateLastName();
+    validateDOB();
+    validateEmail();
+    validatePhone();
+    validateAddress1();
+    validateAddress2();
+    validateCity();
+    validateState();
+    validateZip();
+    checkUserId();
+    checkPassword();
+    checkPasswordMatch();
+}
+
+window.onload = function() {
+    checkReturningUser();
+    loadStates();
+    loadSymptomCheckboxes();
+    updateSubmitButton();
+};
+
